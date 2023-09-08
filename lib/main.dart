@@ -1,17 +1,18 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:studyapp/bindings/initial_binding.dart';
-import 'package:studyapp/data_uploader_screen.dart';
-import 'package:studyapp/routes/app_routes.dart';
-import 'package:studyapp/screens/intoduction/intoduction.dart';
-import 'package:studyapp/screens/splash/splash_screen.dart';
-import 'firebase_options.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:studyapp/bindings/initial_binding.dart';
+import 'package:studyapp/controllers/theme_controller.dart';
+import 'package:studyapp/firebase_options.dart';
+import 'package:studyapp/routes/app_routes.dart';
 
-void main(){
+Future<void> main() async {
   //injection the bindings dependencies
   WidgetsFlutterBinding.ensureInitialized();
   InitialBindings().dependencies();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MyApp());
 }
 
@@ -20,20 +21,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  GetMaterialApp(
+    return GetMaterialApp(
+      theme: Get.find<ThemeController>().lightTheme,
       debugShowCheckedModeBanner: false,
       getPages: AppRoutes.routes(),
     );
   }
 }
 
-
 // Future<void> main() async {
-// WidgetsFlutterBinding.ensureInitialized();
+//   WidgetsFlutterBinding.ensureInitialized();
 //   await Firebase.initializeApp(
-//    options: DefaultFirebaseOptions.currentPlatform,
+//     options: DefaultFirebaseOptions.currentPlatform,
 //   );
-//   runApp(
-//       GetMaterialApp(home: DataUploderScreen()));
+//   runApp(GetMaterialApp(home: DataUploderScreen()));
 // }
-
